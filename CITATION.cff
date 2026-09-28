@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use SenseCEFR in your research or pedagogical projects, please cite it using the metadata below."
+title: "SenseCEFR: Context-Aware Vocabulary Profiler with Word Sense Disambiguation"
+version: "0.4.0"
+date-released: "2026-10-11"
+license: "MIT"
+url: "https://nlp4ed-ma.github.io/SenseCEFR/"
+repository-code: "https://github.com/NLP4Ed-ma/SenseCEFR"
+authors:
+  - name: "Yassine Lchgary"
+    website: "https://github.com/yassinelchgary"
+keywords:
+  - "cefr"
+  - "vocabulary-profiler"
+  - "word-sense-disambiguation"
+  - "lexical-complexity"
+  - "computational-linguistics"
+  - "natural-language-processing"
+  - "language-education"

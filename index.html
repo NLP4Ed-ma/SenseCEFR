@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SenseCEFR v0.4</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- top header -->
+    <header class="app-header">
+      <div class="logo-group">
+        <h1>SenseCEFR <span class="badge-beta">beta v0.4</span></h1>
+        <p>Vocabulary profiler with AI Word Sense Disambiguation</p>
+      </div>
+      <div class="header-controls">
+        <div class="ai-toggle-group">
+          <label class="switch-wrapper" for="geminiToggle" title="Toggle AI for contextual Word Sense Disambiguation">
+            <span class="switch-label-text">AI</span>
+            <div class="switch-toggle">
+              <input type="checkbox" id="geminiToggle" class="switch-checkbox">
+              <span class="switch-slider"></span>
+            </div>
+            <span class="badge-gemini" id="geminiStatusBadge">Offline</span>
+          </label>
+        </div>
+        <button class="btn-settings-icon" id="openSettingsBtn" title="Settings (AI Configuration &amp; Custom Lexicon)" type="button" aria-label="Settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+        <a href="https://www.nlp4ed.ma" target="_blank" rel="noopener noreferrer" title="Visit www.NLP4Ed.ma" style="display: flex; align-items: center; text-decoration: none;">
+          <img src="img/nlp4ed.svg" alt="www.NLP4Ed.ma" class="header-logo">
+        </a>
+      </div>
+    </header>
+
+    <!-- sample preset button -->
+    <div class="sample-bar">
+      <span style="font-size: 0.8rem; color: var(--text-muted); align-self: center;">Sample:</span>
+      <button class="sample-chip" data-sample="party"><svg class="icon-red" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>Load Sample ("Party" Senses: A1, B1, C1)</button>
+    </div>
+
+    <!-- main workspace layout -->
+    <main class="main-grid">
+      <!-- text input panel -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title"><svg class="icon-red" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>Raw Input Text</div>
+          <span style="font-size: 0.75rem; color: var(--text-muted);" id="charCount">0 characters</span>
+        </div>
+        <textarea id="inputText" class="text-input" placeholder="Type or paste English text here, or click the sample above to test..."></textarea>
+        <div class="input-actions">
+          <button class="btn btn-primary" id="analyzeBtn"><svg class="icon-white" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>Profile Text</button>
+          <button class="btn btn-secondary-accent" id="exportReportBtn"><svg class="icon-red" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Save Report</button>
+        </div>
+      </section>
+
+      <!-- annotated output panel -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title"><svg class="icon-red" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>Annotated CEFR Profile</div>
+          <span style="font-size: 0.75rem; color: #c1272d; font-weight: 600; display: inline-flex; align-items: center;"><svg class="icon-red" width="12" height="12" viewBox="0 0 24 24" fill="#c1272d" stroke="none" style="margin-right: 4px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>AI Disambiguated Sense</span>
+        </div>
+        <div id="annotatedViewer" class="annotated-viewer"><span class="viewer-placeholder">Annotated tokens will appear here after profiling...</span></div>
+      </section>
+    </main>
+
+    <!-- corpus metrics dashboard -->
+    <section class="card" style="margin-bottom: 24px;">
+      <div class="card-header">
+        <div class="card-title"><svg class="icon-red" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>CEFR Distribution &amp; Corpus Metrics</div>
+      </div>
+
+      <!-- summary metrics cards -->
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-label">Tokens</div>
+          <div class="stat-val" id="totalWords">0</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Types</div>
+          <div class="stat-val" id="uniqueTypes">0</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">AI Disambiguated Senses</div>
+          <div class="stat-val" id="polyCount">0</div>
+        </div>
+      </div>
+
+      <!-- level distribution bar -->
+      <div class="distribution-bar" id="distBar">
+        <!-- dynamic bar segments -->
+      </div>
+
+      <!-- color legend for levels -->
+      <div class="dist-legend">
+        <div class="legend-item"><span class="legend-dot" style="background: var(--cefr-a1);"></span> A1: <span id="pctA1">0%</span></div>
+        <div class="legend-item"><span class="legend-dot" style="background: var(--cefr-a2);"></span> A2: <span id="pctA2">0%</span></div>
+        <div class="legend-item"><span class="legend-dot" style="background: var(--cefr-b1);"></span> B1: <span id="pctB1">0%</span></div>
+        <div class="legend-item"><span class="legend-dot" style="background: var(--cefr-b2);"></span> B2: <span id="pctB2">0%</span></div>
+        <div class="legend-item"><span class="legend-dot" style="background: var(--cefr-c1);"></span> C1: <span id="pctC1">0%</span></div>
+        <div class="legend-item"><span class="legend-dot" style="background: var(--cefr-c2);"></span> C2: <span id="pctC2">0%</span></div>
+        <div class="legend-item"><span class="legend-dot" style="background: var(--cefr-off);"></span> Off-list: <span id="pctOff">0%</span></div>
+        <div class="legend-item" id="legendUnresolved" style="display: none;"><span class="legend-dot" style="background: var(--cefr-unresolved);"></span> Needs Manual Pick: <span id="pctUnresolved">0%</span></div>
+      </div>
+    </section>
+
+    <!-- footer with citations and credits -->
+    <footer class="app-footer">
+      <div class="footer-grid">
+        <!-- project overview and license -->
+        <div class="footer-col">
+          <div class="footer-heading">
+            <svg class="icon-red" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            About SenseCEFR
+          </div>
+          <p class="footer-desc">
+            <strong>SenseCEFR</strong> is an open-access, context-aware vocabulary profiler engineered to solve the <em>Polysemy Flatline</em> problem in CEFR language analysis by disambiguating multi-tier word senses in context.
+          </p>
+          <div class="footer-meta">
+            <div><strong>License:</strong> <a href="LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a></div>
+          </div>
+        </div>
+
+        <!-- ingested datasets and word lists -->
+        <div class="footer-col">
+          <div class="footer-heading">
+            <svg class="icon-red" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            Datasets
+          </div>
+          <ul class="footer-links">
+            <li>
+              <a href="https://huggingface.co/datasets/star092304/CEFR-Annotated-WordNet" target="_blank" rel="noopener noreferrer">CEFR-Annotated WordNet</a>
+              <span>- Sense-level proficiency dataset (star092304)</span>
+            </li>
+            <li>
+              <a href="https://wordnet.princeton.edu/" target="_blank" rel="noopener noreferrer">Princeton WordNet &amp; Morphy</a>
+              <span>- Lexical database and morphological exceptions</span>
+            </li>
+            <li>
+              <a href="http://www.cefr-j.org/" target="_blank" rel="noopener noreferrer">CEFR-J 1.5</a>
+              <span>- Tokyo Univ. of Foreign Studies A1–B2 framework</span>
+            </li>
+            <li>
+              <a href="https://www.coe.int/en/web/common-european-framework-reference-languages" target="_blank" rel="noopener noreferrer">CEFR Framework Standards</a>
+              <span>- Council of Europe proficiency descriptors</span>
+            </li>
+            <li>
+              <a href="https://web.eecs.umich.edu/~mihalcea/downloads.html" target="_blank" rel="noopener noreferrer">Mihalcea WSD Corpora</a>
+              <span>- Senseval/SemEval benchmarks &amp; sense data</span>
+            </li>
+            <li>
+              <a href="https://github.com/octanove/c1-c2-vocabulary" target="_blank" rel="noopener noreferrer">Octanove C1/C2 Profiles</a>
+              <span>- Advanced open language profiles dataset</span>
+            </li>
+            <li>
+              <a href="https://www.oxfordlearnersdictionaries.com/wordlists/oxford3000-5000" target="_blank" rel="noopener noreferrer">Oxford 3000&trade; / 5000&trade;</a>
+              <span>- Graded wordlists, guidewords &amp; collocations</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- research references and methodology -->
+        <div class="footer-col">
+          <div class="footer-heading">
+            <svg class="icon-red" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            Papers &amp; Preprints
+          </div>
+          <ul class="footer-links">
+            <li>
+              <a href="https://arxiv.org/abs/2510.18466" target="_blank" rel="noopener noreferrer">Kikuchi et al. (2024)</a>
+              <span>- CEFR-Annotated WordNet (arXiv:2510.18466)</span>
+            </li>
+            <li>
+              <a href="https://doi.org/10.1145/318723.318728" target="_blank" rel="noopener noreferrer">Lesk (1986)</a>
+              <span>- Machine-readable dictionary WSD (SIGDOC)</span>
+            </li>
+            <li>
+              <a href="http://www.cefr-j.org/" target="_blank" rel="noopener noreferrer">Negishi, Takada &amp; Tono (2013)</a>
+              <span>- Development of the CEFR-J lexical framework</span>
+            </li>
+            <li>
+              <a href="https://doi.org/10.1145/219717.219748" target="_blank" rel="noopener noreferrer">Miller (1995)</a>
+              <span>- WordNet: A lexical database for English (CACM)</span>
+            </li>
+            <li>
+              <a href="https://www.coe.int/en/web/common-european-framework-reference-languages" target="_blank" rel="noopener noreferrer">Council of Europe (2001, 2020)</a>
+              <span>- CEFR standards &amp; companion volume</span>
+            </li>
+            <li>
+              <a href="https://web.eecs.umich.edu/~mihalcea/downloads.html" target="_blank" rel="noopener noreferrer">Mihalcea (2007)</a>
+              <span>- Automatic word sense disambiguation (NAACL)</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 <a href="https://www.nlp4ed.ma/" target="_blank" rel="noopener noreferrer"><strong>NLP4Ed</strong></a> &bull; SenseCEFR Vocabulary Profiler</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- word inspector modal dialog -->
+  <div class="modal-overlay" id="inspectModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <div class="word-heading">
+            <span id="modalWord">word</span>
+            <span class="cefr-tag" id="modalCefrBadge">B2</span>
+          </div>
+          <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">
+            Lemma: <strong id="modalLemma">lemma</strong> &bull; Context Confidence: <strong id="modalConf">90%</strong>
+          </div>
+        </div>
+        <button class="close-btn" id="closeModalBtn">&times;</button>
+      </div>
+
+      <!-- sentence context box -->
+      <div class="section-label">Sentence Context</div>
+      <blockquote id="modalSentence" style="font-style: italic; color: #334155; border-left: 3px solid #0b5035; padding-left: 10px; margin-bottom: 12px; font-size: 0.9rem; background: #f8fafc; padding: 8px 12px; border-radius: 0 6px 6px 0;">
+        Context sentence here...
+      </blockquote>
+
+      <!-- sense information -->
+      <div class="section-label">Selected Ground-Truth Sense</div>
+      <div id="modalActiveSense" class="sense-card active-sense">
+        <!-- active assigned sense -->
+      </div>
+
+      <!-- contextual reasoning note when provided by gemini -->
+      <div id="modalAiExplanationContainer" style="display: none; margin-bottom: 14px;">
+        <div class="section-label" style="display: flex; align-items: center; gap: 6px; color: #15803d;">
+          <svg class="icon-red" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+          AI Contextual Reasoning
+        </div>
+        <div id="modalAiExplanation" class="ai-explanation-box"></div>
+      </div>
+
+      <!-- alternate senses for polysemous words -->
+      <div id="modalAltSensesContainer">
+        <div class="section-label">Alternative Candidate Senses Evaluated</div>
+        <div id="modalAltSenses"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- settings dialog with ai and lexicon tabs -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal-content settings-modal-content">
+      <div class="modal-header">
+        <div class="word-heading">
+          <svg class="icon-red" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span>SenseCEFR Settings</span>
+        </div>
+        <button class="close-btn" id="closeSettingsBtn">&times;</button>
+      </div>
+
+      <!-- tab switcher buttons -->
+      <div class="settings-nav-tabs">
+        <button type="button" class="settings-tab-btn active" id="tabBtnAi">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+          </svg>
+          AI Configuration
+        </button>
+        <button type="button" class="settings-tab-btn" id="tabBtnLexicon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          Custom Lexicon
+          <span class="settings-tab-badge" id="customLexiconCountBadge">0</span>
+        </button>
+      </div>
+
+      <!-- ai configuration tab -->
+      <div class="settings-tab-pane active" id="paneAiConfig">
+        <p class="settings-help-text">
+          Configure your <a href="https://aistudio.google.com/api-keys" target="_blank" rel="noopener noreferrer" style="color: #0b5035; text-decoration: underline; font-weight: 600;">Google Gemini API</a> key to enable high-accuracy contextual Word Sense Disambiguation and pedagogical reasoning. Your key is stored locally in your browser's <code>localStorage</code> and never sent to third-party servers.
+        </p>
+
+        <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; color: var(--text-main);">Gemini API Key</label>
+        <div style="display: flex; gap: 8px; margin-bottom: 14px;">
+          <input type="password" id="geminiApiKeyInput" placeholder="Enter API Key" style="flex: 1; min-width: 0; padding: 8px 12px; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.9rem; font-family: monospace; box-sizing: border-box;">
+          <button type="button" id="toggleKeyVisibilityBtn" class="btn btn-secondary-accent" style="padding: 6px 12px; font-size: 0.8rem; flex-shrink: 0;">Show</button>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+          <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-main);">Model</label>
+          <span style="font-size: 0.75rem; color: #64748b; font-weight: 500;">Default: Flash-Lite Latest</span>
+        </div>
+        <select id="geminiModelSelect" style="width: 100%; box-sizing: border-box; padding: 8px 12px; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; margin-bottom: 8px; background: #fff; color: var(--text-main);">
+          <option value="gemini-flash-lite-latest" selected>gemini-flash-lite-latest (Recommended)</option>
+          <option value="custom">Custom Model Name...</option>
+        </select>
+
+        <div id="geminiCustomModelContainer" style="display: none; margin-bottom: 14px;">
+          <input type="text" id="geminiCustomModelInput" placeholder="Enter custom model identifier" style="width: 100%; box-sizing: border-box; padding: 8px 12px; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 0.85rem; font-family: monospace;">
+        </div>
+
+        <div id="geminiConnectionStatus" style="font-size: 0.85rem; margin-bottom: 16px; padding: 10px 14px; border-radius: 6px; display: none;"></div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px;">
+          <button type="button" id="clearGeminiKeyBtn" class="btn btn-secondary-accent" style="color: #be123c;">Remove Key</button>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" id="testGeminiConnectionBtn" class="btn btn-secondary-accent">Test Connection</button>
+            <button type="button" id="saveGeminiKeyBtn" class="btn btn-primary">Save &amp; Connect</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- custom dictionary tab -->
+      <div class="settings-tab-pane" id="paneCustomLexicon">
+        <p class="settings-help-text">
+          Customize vocabulary levels and multi-sense polysemy for specific courses, ESP corpora, or school curricula. <u>Custom entries take priority over default CEFR databases during text profiling.</u>
+        </p>
+
+        <!-- lexicon actions toolbar -->
+        <div class="lexicon-toolbar">
+          <label class="btn btn-secondary-accent btn-sm lexicon-toolbar-btn" title="Import entries from a CSV file" style="cursor: pointer; margin-bottom: 0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            Import CSV
+            <input type="file" id="lexiconFileInput" accept=".csv,text/csv" style="display: none;">
+          </label>
+          <button type="button" class="btn btn-secondary-accent btn-sm lexicon-toolbar-btn" id="backupLexiconBtn" title="Export all custom entries as a CSV file">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Backup CSV
+          </button>
+          <button type="button" class="btn btn-secondary-accent btn-sm btn-template-link lexicon-toolbar-btn" id="downloadTemplateBtn" title="Download a pre-filled CSV sample template">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+            Sample CSV
+          </button>
+          <button type="button" class="btn btn-danger-accent btn-sm lexicon-toolbar-btn" id="resetLexiconBtn" title="Reset and erase all custom lexicon entries">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+            Reset
+          </button>
+        </div>
+
+        <div id="lexiconStatusMsg" class="lexicon-status-banner" style="display: none;"></div>
+
+        <!-- form to add new words or senses -->
+        <div class="quick-add-card">
+          <div class="quick-add-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Quick Add / Define Sense
+          </div>
+          <form id="quickAddLexiconForm" onsubmit="return false;">
+            <div class="quick-add-grid">
+              <div class="form-group">
+                <label for="customWordInput">Word / Phrase <span class="required-star">*</span></label>
+                <input type="text" id="customWordInput" placeholder="" required>
+              </div>
+              <div class="form-group">
+                <label for="customCefrSelect">CEFR Level <span class="required-star">*</span></label>
+                <select id="customCefrSelect" required>
+                  <option value="" selected disabled></option>
+                  <option value="A1">A1</option>
+                  <option value="A2">A2</option>
+                  <option value="B1">B1</option>
+                  <option value="B2">B2</option>
+                  <option value="C1">C1</option>
+                  <option value="C2">C2</option>
+                  <option value="Off-list">Off-list</option>
+                </select>
+              </div>
+              <div class="form-group" id="posFormGroup">
+                <label for="customPosSelect">POS</label>
+                <select id="customPosSelect">
+                  <option value="" selected></option>
+                  <option value="noun">noun</option>
+                  <option value="verb">verb</option>
+                  <option value="adj">adjective</option>
+                  <option value="adv">adverb</option>
+                  <option value="other">other</option>
+                </select>
+                <div id="customPosOtherContainer" style="display: none; margin-top: 4px;">
+                  <input type="text" id="customPosOtherInput" placeholder="Specify POS" style="padding: 6px 10px; font-size: 0.82rem; border: 1px solid var(--border-strong); border-radius: 6px; width: 100%; box-sizing: border-box;">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="customGuidewordInput">Guideword / Sense Label</label>
+                <input type="text" id="customGuidewordInput" placeholder="">
+              </div>
+            </div>
+            <div class="form-group" style="margin-top: 8px;">
+              <label for="customDefInput">Sense Definition (recommended for polysemy / WSD matching)</label>
+              <div style="display: flex; gap: 8px;">
+                <input type="text" id="customDefInput" placeholder="" style="flex: 1; min-width: 0;">
+                <button type="submit" class="btn btn-primary btn-sm" id="addLexiconEntryBtn" style="white-space: nowrap; flex-shrink: 0;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  Add Entry
+                </button>
+              </div>
+            </div>
+          </form>
+          <div class="quick-add-hint">
+            <strong>Tip:</strong> For a simple override, enter the word and CEFR level. To create <strong>multi-sense polysemy</strong>, add the same word multiple times with different senses and levels. SenseCEFR will disambiguate between them in context!
+          </div>
+        </div>
+
+        <!-- table of custom vocabulary entries -->
+        <div class="custom-entries-section">
+          <div class="entries-section-header">
+            <div class="entries-count-title">
+              <span>Active Custom Entries</span>
+              <span class="entries-count-pill" id="entriesCountPill">0 entries</span>
+            </div>
+            <input type="text" id="lexiconSearchInput" placeholder="Filter custom words..." class="entries-search-input">
+          </div>
+          <div class="custom-entries-table-wrapper" id="customEntriesTableWrapper">
+            <!-- empty state placeholder or rendered table -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="data/cefr_lexicon.js"></script>
+  <script src="js/nlp_engine.js"></script>
+  <script src="js/wsd_engine.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
