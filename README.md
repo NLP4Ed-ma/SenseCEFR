@@ -17,10 +17,16 @@
 
 ---
 
-## Demo Walkthrough
+## Quick Demo
 
 <p align="center">
-  <img src="sensecefr_demo.gif" alt="SenseCEFR Demo Walkthrough" width="100%" style="border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.1);" />
+  <img src="sensecefr_demo.gif" alt="SenseCEFR Quick Demo" width="100%" style="border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.1);" />
+</p>
+
+<p align="center">
+  <a href="https://youtu.be/xxs5WI3Yi8s" target="_blank" rel="noopener noreferrer">
+    <img src="img/youtube.svg" alt="YouTube" width="20" height="20" align="absmiddle" /> Watch on YT
+  </a>
 </p>
 
 ---
@@ -146,41 +152,71 @@ If you use SenseCEFR in academic research, textbook leveling, or curriculum desi
 
 ---
 
-## Datasets, Papers & Preprints
+## Attribution
+
+SenseCEFR is built upon several foundational open-source datasets, academic lexical databases, and natural language processing research.
 
 ### Datasets
-1. **CEFR-Annotated WordNet**: Kikuchi et al. &mdash; Sense-level CEFR proficiency annotations dataset. [Hugging Face](https://huggingface.co/datasets/star092304/CEFR-Annotated-WordNet)
-2. **Princeton WordNet & Morphy**: Miller et al. &mdash; Lexical database and morphological exception database. [https://wordnet.princeton.edu/](https://wordnet.princeton.edu/)
-3. **CEFR-J Lexical Database (v1.5)**: Tokyo Univ. of Foreign Studies &mdash; Core A1–B2 vocabulary framework. [http://www.cefr-j.org/](http://www.cefr-j.org/)
-4. **CEFR Framework Standards & Companion Volume**: Council of Europe &mdash; Language proficiency descriptors and illustrative scales. [https://www.coe.int/en/web/common-european-framework-reference-languages](https://www.coe.int/en/web/common-european-framework-reference-languages)
-5. **Mihalcea WSD Corpora & Resources**: Rada Mihalcea &mdash; Word Sense Disambiguation evaluation benchmarks and lexical resources. [https://web.eecs.umich.edu/~mihalcea/downloads.html](https://web.eecs.umich.edu/~mihalcea/downloads.html)
-6. **Octanove C1/C2 Profiles**: Octanove Labs &mdash; Advanced open language profiles lexical dataset. [https://github.com/octanove/c1-c2-vocabulary](https://github.com/octanove/c1-c2-vocabulary)
-7. **Oxford 3000™ / 5000™ Wordlists**: Oxford University Press &mdash; Graded vocabulary, sense definitions, and guidewords. [https://www.oxfordlearnersdictionaries.com/wordlists/oxford3000-5000](https://www.oxfordlearnersdictionaries.com/wordlists/oxford3000-5000)
+
+1. **CEFR-Annotated WordNet** (Kikuchi et al.)
+   * **Role**: Primary data source for sense-level CEFR proficiency annotations mapped across WordNet synsets.
+   * **License**: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+   * **Resource**: [Hugging Face Dataset](https://huggingface.co/datasets/star092304/CEFR-Annotated-WordNet)
+
+2. **Princeton WordNet 3.0 & Morphy** (Miller et al.)
+   * **Role**: English lexical database providing synset definitions and glosses, plus Morphy morphological exception tables (`*.exc`) for client-side irregular lemmatization.
+   * **License**: [WordNet 3.0 License](https://wordnet.princeton.edu/license-and-commercial-use) (Permissive, Copyright 2006 Princeton University)
+   * **Resource**: [Princeton WordNet](https://wordnet.princeton.edu/)
+
+3. **CEFR-J Lexical Database (v1.5)** (Tokyo University of Foreign Studies)
+   * **Role**: Core graded vocabulary framework providing baseline A1–B2 word-family proficiency targets.
+   * **License**: Open Educational / Academic Citation
+   * **Resource**: [CEFR-J Project](http://www.cefr-j.org/) · [Open Language Profiles CEFR-J](https://github.com/openlanguageprofiles/olp-en-cefrj)
+
+4. **Octanove C1/C2 Vocabulary Profiles** (Octanove Labs)
+   * **Role**: Advanced lexical profiles extending SenseCEFR coverage to C1 and C2 proficiency levels.
+   * **License**: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+   * **Resource**: [Open Language Profiles (CEFR-J & Octanove)](https://github.com/openlanguageprofiles/olp-en-cefrj)
+
+5. **Oxford 3000™ / 5000™ Wordlists** (Oxford University Press)
+   * **Role**: Graded frequency wordlists, pedagogical definitions, and guidewords used to benchmark learner dictionary senses against WordNet synsets.
+   * **Terms**: Oxford 3000™ and Oxford 5000™ are trademarks of Oxford University Press (referenced for academic comparison).
+   * **Resource**: [Oxford Learner's Dictionaries Wordlists](https://www.oxfordlearnersdictionaries.com/wordlists/oxford3000-5000)
+
+6. **CEFR Illustrative Descriptors & Companion Volume** (Council of Europe)
+   * **Role**: International reference standard defining the 6-level proficiency scale (A1–C2), illustrative descriptors, and communicative proficiency criteria.
+   * **Terms**: Official International Standard (Council of Europe, referenced for educational alignment)
+   * **Resource**: [Council of Europe CEFR Portal](https://www.coe.int/en/web/common-european-framework-reference-languages)
+
+7. **Mihalcea WSD Corpora & Resources** (Rada Mihalcea)
+   * **Role**: Word Sense Disambiguation evaluation benchmarks and methodology used to calibrate the contextual window overlap scorer.
+   * **Terms**: Academic & Research Use
+   * **Resource**: [University of Michigan WSD Downloads](https://web.eecs.umich.edu/~mihalcea/downloads.html)
+
+---
 
 ### Papers & Preprints
-1. **Kikuchi et al. (2024)**: Kikuchi, M., Ono, M., Soga, T., Tanabe, T., & Ozono, T. (2024). CEFR-Annotated WordNet: LLM-Based Proficiency-Guided Semantic Database for Language Learning. *arXiv preprint arXiv:2510.18466*. [https://doi.org/10.48550/arXiv.2510.18466](https://doi.org/10.48550/arXiv.2510.18466)
-2. **Lesk (1986)**: Lesk, M. (1986). Automatic sense disambiguation using machine-readable dictionaries: How to tell a pine cone from an ice cream cone. In *Proceedings of the 5th Annual International Conference on Systems Documentation (SIGDOC '86)* (pp. 24–26). Association for Computing Machinery. [https://doi.org/10.1145/318723.318728](https://doi.org/10.1145/318723.318728)
 
-3. **Negishi, Takada, & Tono (2013)**:  
-   Negishi, M., Takada, T., & Tono, Y. (2013). A progress report on the development of the CEFR-J. In N. Saville & F. Sheehan (Eds.), *Critical issues in language testing: Studies in language testing* (Vol. 36, pp. 135–163). Cambridge University Press. [http://www.cefr-j.org/](http://www.cefr-j.org/)
+1. **CEFR-Annotated WordNet**:  
+   Kikuchi, M., Ono, M., Soga, T., Tanabe, T., & Ozono, T. (2024). *CEFR-Annotated WordNet: LLM-Based Proficiency-Guided Semantic Database for Language Learning*. arXiv preprint arXiv:2510.18466. [https://doi.org/10.48550/arXiv.2510.18466](https://doi.org/10.48550/arXiv.2510.18466)
 
-4. **Miller (1995)**:  
-   Miller, G. A. (1995). WordNet: A lexical database for English. *Communications of the ACM*, *38*(11), 39–41. [https://doi.org/10.1145/219717.219748](https://doi.org/10.1145/219717.219748)
+2. **Princeton WordNet**:  
+   Miller, G. A. (1995). *WordNet: A lexical database for English*. Communications of the ACM, 38(11), 39–41. [https://doi.org/10.1145/219717.219748](https://doi.org/10.1145/219717.219748)
 
-5. **Council of Europe (2001, 2020)**:  
+3. **CEFR-J Framework**:  
+   Negishi, M., Takada, T., & Tono, Y. (2013). *A progress report on the development of the CEFR-J*. In N. Saville & F. Sheehan (Eds.), *Critical issues in language testing: Studies in language testing* (Vol. 36, pp. 135–163). Cambridge University Press. [http://www.cefr-j.org/](http://www.cefr-j.org/)
+
+4. **CEFR Companion Volume**:  
    Council of Europe. (2001, 2020). *Common European Framework of Reference for Languages: Learning, teaching, assessment – Companion volume*. Council of Europe Publishing. [https://www.coe.int/en/web/common-european-framework-reference-languages](https://www.coe.int/en/web/common-european-framework-reference-languages)
 
-6. **Mihalcea (2007)**:  
-   Mihalcea, R. (2007). Using Wikipedia for automatic word sense disambiguation. In *Human Language Technologies 2007: NAACL-HLT Companion Volume* (pp. 197–200). Association for Computing Machinery. [https://web.eecs.umich.edu/~mihalcea/downloads.html](https://web.eecs.umich.edu/~mihalcea/downloads.html)
+5. **Simplified Lesk Algorithm (WSD)**:  
+   Lesk, M. (1986). *Automatic sense disambiguation using machine-readable dictionaries: How to tell a pine cone from an ice cream cone*. In *Proceedings of the 5th Annual International Conference on Systems Documentation (SIGDOC '86)* (pp. 24–26). Association for Computing Machinery. [https://doi.org/10.1145/318723.318728](https://doi.org/10.1145/318723.318728)
+
+6. **Wikipedia-Based Sense Disambiguation**:  
+   Mihalcea, R. (2007). *Using Wikipedia for automatic word sense disambiguation*. In *Human Language Technologies 2007: NAACL-HLT Companion Volume* (pp. 197–200). Association for Computing Machinery. [https://web.eecs.umich.edu/~mihalcea/downloads.html](https://web.eecs.umich.edu/~mihalcea/downloads.html)
 
 ---
 
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
-### Acknowledgments & Dataset Credits
-- **Princeton WordNet**: WordNet 3.0 Copyright 2006 by Princeton University.
-- **Octanove C1/C2**: Octanove Labs, licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
-- **CEFR-Annotated WordNet**: Kikuchi et al., licensed under [CC BY 4.0](https://creativecommons.org/licenses/by-4.0/).
-- **Oxford 3000™ / 5000™**: Trademarks of Oxford University Press (referenced for academic comparison).

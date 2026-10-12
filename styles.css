@@ -56,6 +56,11 @@
   padding: 0;
 }
 
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-primary);
@@ -73,15 +78,29 @@ body {
 /* header */
 .app-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 12px;
   margin-bottom: 24px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border-color);
   background: var(--bg-secondary);
-  padding: 16px 20px;
+  padding: 14px 18px;
   border-radius: 10px;
   border: 1px solid var(--border-color);
+}
+
+.header-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.header-main-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .logo-group h1 {
@@ -140,7 +159,7 @@ body {
 }
 
 .header-logo {
-  height: 60px;
+  height: 38px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -542,7 +561,42 @@ body {
 
 @media (max-width: 768px) {
   .stats-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .stat-box {
+    padding: 10px 8px;
+    text-align: center;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+    line-height: 1.25;
+  }
+
+  .stat-val {
+    font-size: 1.25rem;
+    margin-top: 2px;
+  }
+}
+
+@media (max-width: 440px) {
+  .stats-grid {
     grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .stat-box {
+    text-align: left;
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .stat-val {
+    margin-top: 0;
   }
 }
 
@@ -606,6 +660,13 @@ body {
   border-radius: 50%;
 }
 
+/* modal background scroll locking */
+html.modal-scroll-locked,
+body.modal-scroll-locked {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+}
+
 /* word inspector modal */
 .modal-overlay {
   display: none;
@@ -613,9 +674,13 @@ body {
   inset: 0;
   background: rgba(15, 23, 42, 0.4);
   backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   z-index: 100;
   align-items: center;
   justify-content: center;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal-content {
@@ -624,6 +689,7 @@ body {
   border-radius: 12px;
   width: 90%;
   max-width: 600px;
+  overscroll-behavior: contain;
   max-height: 85vh;
   overflow-y: auto;
   padding: 24px;
@@ -814,21 +880,27 @@ body {
   color: var(--text-main);
   cursor: pointer;
   padding: 0;
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  flex-shrink: 0;
 }
 
 .btn-settings-icon:hover {
   background: #f0fdf4;
   border-color: #0b5035;
   color: #0b5035;
-  box-shadow: 0 2px 4px rgba(11, 80, 53, 0.12);
+  box-shadow: 0 2px 5px rgba(11, 80, 53, 0.15);
+}
+
+.btn-settings-icon svg {
+  width: 15px;
+  height: 15px;
 }
 
 /* ai explanation callout */
@@ -856,7 +928,7 @@ body {
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.15fr 1fr 1fr;
+  grid-template-columns: 320px 1fr;
   gap: 28px;
   padding-bottom: 20px;
   border-bottom: 1px solid var(--border-color);
@@ -867,6 +939,51 @@ body {
     grid-template-columns: 1fr;
     gap: 20px;
   }
+}
+
+.attribution-box {
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 18px 20px;
+}
+
+.attribution-box-header {
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.attribution-box-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.attribution-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 640px) {
+  .attribution-columns {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+.attribution-subheading {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .footer-col {
@@ -983,6 +1100,7 @@ body {
   max-height: 90vh;
   overflow: hidden;
   overflow-x: hidden;
+  overscroll-behavior: contain;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -1297,8 +1415,8 @@ body {
 }
 
 .custom-entries-table-wrapper {
-  max-height: 220px;
-  overflow-y: auto;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .custom-entries-table {
@@ -1376,5 +1494,328 @@ body {
   color: var(--text-muted);
   font-size: 0.84rem;
   line-height: 1.5;
+}
+
+/* ==========================================================================
+   Mobile Responsiveness Overhaul (Screens <= 680px & <= 440px)
+   ========================================================================== */
+
+@media (max-width: 680px) {
+  .app-container {
+    padding: 12px 14px;
+  }
+
+  /* Header */
+  .app-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+  }
+
+  .header-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .header-logo {
+    height: 34px;
+    max-width: 75px;
+  }
+
+  .header-main-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .logo-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .logo-group h1 {
+    font-size: 1.35rem;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .logo-group p {
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+
+  .ai-toggle-group {
+    padding: 3px 8px;
+    gap: 6px;
+  }
+
+  .switch-label-text {
+    font-size: 0.75rem;
+  }
+
+  /* Sample Presets */
+  .sample-bar {
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .sample-chip {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    max-width: 100%;
+    white-space: normal;
+    text-align: left;
+    line-height: 1.3;
+  }
+
+  /* Card Panels */
+  .card {
+    padding: 14px;
+    border-radius: 8px;
+    margin-bottom: 16px !important;
+  }
+
+  .card-header {
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .card-title {
+    font-size: 0.88rem;
+  }
+
+  /* Text Input & Output Viewer */
+  .text-input {
+    height: 220px;
+    padding: 12px;
+    font-size: 16px !important; /* Prevents auto-zoom on iOS */
+    line-height: 1.6;
+  }
+
+  .annotated-viewer {
+    height: auto;
+    min-height: 200px;
+    max-height: 400px;
+    padding: 12px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    overflow-x: auto;
+    word-break: break-word;
+  }
+
+  /* Input Action Buttons */
+  .input-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .input-actions .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 8px;
+    font-size: 0.82rem;
+  }
+
+  /* Distribution Bar & Legend */
+  .distribution-bar {
+    height: 18px;
+    margin-bottom: 12px;
+  }
+
+  .dist-legend {
+    gap: 6px 12px;
+    font-size: 0.72rem;
+  }
+
+  .legend-item {
+    font-size: 0.72rem;
+    gap: 4px;
+  }
+
+  /* Footer */
+  .app-footer {
+    padding: 16px 14px;
+    margin-top: 20px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding-bottom: 14px;
+  }
+
+  .attribution-box {
+    padding: 14px 12px;
+  }
+
+  .attribution-columns {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .footer-links li {
+    font-size: 0.75rem;
+    word-break: break-word;
+  }
+
+  .footer-bottom {
+    font-size: 0.7rem;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Modals */
+  .modal-overlay {
+    padding: 8px;
+  }
+
+  .modal-content {
+    width: 98% !important;
+    max-width: 100% !important;
+    max-height: 92vh;
+    padding: 16px 12px;
+    border-radius: 10px;
+  }
+
+  .word-heading {
+    font-size: 1.25rem;
+    gap: 6px;
+  }
+
+  .settings-modal-content {
+    width: 98% !important;
+    max-width: 100% !important;
+    max-height: 92vh;
+    padding: 14px 12px;
+  }
+
+  .settings-nav-tabs {
+    gap: 4px;
+    padding: 4px 6px 0 6px;
+    margin: 8px 0 12px 0;
+  }
+
+  .settings-tab-btn {
+    padding: 7px 10px;
+    font-size: 0.78rem;
+    gap: 4px;
+  }
+
+  .settings-tab-pane {
+    max-height: calc(92vh - 120px);
+    padding-right: 2px;
+  }
+
+  /* AI Config Action Buttons */
+  .ai-config-actions {
+    flex-direction: column-reverse !important;
+    gap: 8px !important;
+    align-items: stretch !important;
+  }
+
+  .ai-config-actions > div {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .ai-config-actions > div > button {
+    flex: 1;
+    justify-content: center;
+    padding: 9px 8px;
+    font-size: 0.8rem;
+  }
+
+  #clearGeminiKeyBtn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+
+  /* Custom Lexicon Toolbar & Form */
+  .lexicon-toolbar {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 6px;
+  }
+
+  .lexicon-toolbar .btn-sm {
+    font-size: 0.74rem;
+    padding: 6px 4px;
+    height: 36px;
+  }
+
+  .quick-add-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .entries-section-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .entries-search-input {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .custom-entries-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Touch input sizing to prevent iOS auto-zoom */
+  input[type="text"], input[type="password"], select, textarea {
+    font-size: 16px !important;
+  }
+}
+
+@media (max-width: 440px) {
+  .header-main-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .ai-toggle-group {
+    align-self: flex-start;
+  }
+
+  .input-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-add-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .quick-add-def-row {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  .quick-add-def-row button {
+    width: 100%;
+    justify-content: center;
+    padding: 9px;
+  }
 }
 

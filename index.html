@@ -10,11 +10,25 @@
   <div class="app-container">
     <!-- top header -->
     <header class="app-header">
-      <div class="logo-group">
-        <h1>SenseCEFR <span class="badge-beta">beta v0.4</span></h1>
-        <p>Vocabulary profiler with AI Word Sense Disambiguation</p>
+      <!-- Top Tier: Logo at very top, Settings at top right -->
+      <div class="header-top-bar">
+        <a href="https://www.nlp4ed.ma" target="_blank" rel="noopener noreferrer" title="Visit www.NLP4Ed.ma">
+          <img src="img/nlp4ed.svg" alt="www.NLP4Ed.ma" class="header-logo">
+        </a>
+        <button class="btn-settings-icon" id="openSettingsBtn" title="Settings (AI Configuration &amp; Custom Lexicon)" type="button" aria-label="Settings">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
       </div>
-      <div class="header-controls">
+
+      <!-- Bottom Tier: App title and AI toggle -->
+      <div class="header-main-row">
+        <div class="logo-group">
+          <h1>SenseCEFR <span class="badge-beta">beta v0.4</span></h1>
+          <p>Vocabulary profiler with AI Word Sense Disambiguation</p>
+        </div>
         <div class="ai-toggle-group">
           <label class="switch-wrapper" for="geminiToggle" title="Toggle AI for contextual Word Sense Disambiguation">
             <span class="switch-label-text">AI</span>
@@ -25,15 +39,6 @@
             <span class="badge-gemini" id="geminiStatusBadge">Offline</span>
           </label>
         </div>
-        <button class="btn-settings-icon" id="openSettingsBtn" title="Settings (AI Configuration &amp; Custom Lexicon)" type="button" aria-label="Settings">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-          </svg>
-        </button>
-        <a href="https://www.nlp4ed.ma" target="_blank" rel="noopener noreferrer" title="Visit www.NLP4Ed.ma" style="display: flex; align-items: center; text-decoration: none;">
-          <img src="img/nlp4ed.svg" alt="www.NLP4Ed.ma" class="header-logo">
-        </a>
       </div>
     </header>
 
@@ -125,76 +130,88 @@
           </div>
         </div>
 
-        <!-- ingested datasets and word lists -->
-        <div class="footer-col">
-          <div class="footer-heading">
-            <svg class="icon-red" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-            Datasets
+        <!-- framed attribution card -->
+        <div class="attribution-box">
+          <div class="attribution-box-header">
+            <div class="attribution-box-title">
+              <svg class="icon-red" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+              Attribution
+            </div>
           </div>
-          <ul class="footer-links">
-            <li>
-              <a href="https://huggingface.co/datasets/star092304/CEFR-Annotated-WordNet" target="_blank" rel="noopener noreferrer">CEFR-Annotated WordNet</a>
-              <span>- Sense-level proficiency dataset (star092304)</span>
-            </li>
-            <li>
-              <a href="https://wordnet.princeton.edu/" target="_blank" rel="noopener noreferrer">Princeton WordNet &amp; Morphy</a>
-              <span>- Lexical database and morphological exceptions</span>
-            </li>
-            <li>
-              <a href="http://www.cefr-j.org/" target="_blank" rel="noopener noreferrer">CEFR-J 1.5</a>
-              <span>- Tokyo Univ. of Foreign Studies A1–B2 framework</span>
-            </li>
-            <li>
-              <a href="https://www.coe.int/en/web/common-european-framework-reference-languages" target="_blank" rel="noopener noreferrer">CEFR Framework Standards</a>
-              <span>- Council of Europe proficiency descriptors</span>
-            </li>
-            <li>
-              <a href="https://web.eecs.umich.edu/~mihalcea/downloads.html" target="_blank" rel="noopener noreferrer">Mihalcea WSD Corpora</a>
-              <span>- Senseval/SemEval benchmarks &amp; sense data</span>
-            </li>
-            <li>
-              <a href="https://github.com/octanove/c1-c2-vocabulary" target="_blank" rel="noopener noreferrer">Octanove C1/C2 Profiles</a>
-              <span>- Advanced open language profiles dataset</span>
-            </li>
-            <li>
-              <a href="https://www.oxfordlearnersdictionaries.com/wordlists/oxford3000-5000" target="_blank" rel="noopener noreferrer">Oxford 3000&trade; / 5000&trade;</a>
-              <span>- Graded wordlists, guidewords &amp; collocations</span>
-            </li>
-          </ul>
-        </div>
 
-        <!-- research references and methodology -->
-        <div class="footer-col">
-          <div class="footer-heading">
-            <svg class="icon-red" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-            Papers &amp; Preprints
+          <div class="attribution-columns">
+            <!-- ingested datasets and word lists -->
+            <div>
+              <div class="attribution-subheading">
+                <svg class="icon-red" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                Datasets
+              </div>
+              <ul class="footer-links">
+                <li>
+                  <a href="https://huggingface.co/datasets/star092304/CEFR-Annotated-WordNet" target="_blank" rel="noopener noreferrer">CEFR-Annotated WordNet</a>
+                  <span>- Sense-level proficiency dataset (star092304)</span>
+                </li>
+                <li>
+                  <a href="https://wordnet.princeton.edu/" target="_blank" rel="noopener noreferrer">Princeton WordNet &amp; Morphy</a>
+                  <span>- Lexical database and morphological exceptions</span>
+                </li>
+                <li>
+                  <a href="http://www.cefr-j.org/" target="_blank" rel="noopener noreferrer">CEFR-J 1.5</a>
+                  <span>- Tokyo Univ. of Foreign Studies A1–B2 framework</span>
+                </li>
+                <li>
+                  <a href="https://www.coe.int/en/web/common-european-framework-reference-languages" target="_blank" rel="noopener noreferrer">CEFR Framework Standards</a>
+                  <span>- Council of Europe proficiency descriptors</span>
+                </li>
+                <li>
+                  <a href="https://web.eecs.umich.edu/~mihalcea/downloads.html" target="_blank" rel="noopener noreferrer">Mihalcea WSD Corpora</a>
+                  <span>- Senseval/SemEval benchmarks &amp; sense data</span>
+                </li>
+                <li>
+                  <a href="https://github.com/openlanguageprofiles/olp-en-cefrj" target="_blank" rel="noopener noreferrer">Octanove C1/C2 Profiles</a>
+                  <span>- Advanced open language profiles dataset</span>
+                </li>
+                <li>
+                  <a href="https://www.oxfordlearnersdictionaries.com/wordlists/oxford3000-5000" target="_blank" rel="noopener noreferrer">Oxford 3000&trade; / 5000&trade;</a>
+                  <span>- Graded wordlists, guidewords &amp; collocations</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- research references and methodology -->
+            <div>
+              <div class="attribution-subheading">
+                <svg class="icon-red" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                Papers &amp; Preprints
+              </div>
+              <ul class="footer-links">
+                <li>
+                  <a href="https://doi.org/10.48550/arXiv.2510.18466" target="_blank" rel="noopener noreferrer">Kikuchi et al. (2024)</a>
+                  <span>- CEFR-Annotated WordNet (arXiv:2510.18466)</span>
+                </li>
+                <li>
+                  <a href="https://doi.org/10.1145/318723.318728" target="_blank" rel="noopener noreferrer">Lesk (1986)</a>
+                  <span>- Machine-readable dictionary WSD (SIGDOC)</span>
+                </li>
+                <li>
+                  <a href="http://www.cefr-j.org/" target="_blank" rel="noopener noreferrer">Negishi, Takada &amp; Tono (2013)</a>
+                  <span>- Development of the CEFR-J lexical framework</span>
+                </li>
+                <li>
+                  <a href="https://doi.org/10.1145/219717.219748" target="_blank" rel="noopener noreferrer">Miller (1995)</a>
+                  <span>- WordNet: A lexical database for English (CACM)</span>
+                </li>
+                <li>
+                  <a href="https://www.coe.int/en/web/common-european-framework-reference-languages" target="_blank" rel="noopener noreferrer">Council of Europe (2001, 2020)</a>
+                  <span>- CEFR standards &amp; companion volume</span>
+                </li>
+                <li>
+                  <a href="https://web.eecs.umich.edu/~mihalcea/downloads.html" target="_blank" rel="noopener noreferrer">Mihalcea (2007)</a>
+                  <span>- Automatic word sense disambiguation (NAACL)</span>
+                </li>
+              </ul>
+            </div>
           </div>
-          <ul class="footer-links">
-            <li>
-              <a href="https://arxiv.org/abs/2510.18466" target="_blank" rel="noopener noreferrer">Kikuchi et al. (2024)</a>
-              <span>- CEFR-Annotated WordNet (arXiv:2510.18466)</span>
-            </li>
-            <li>
-              <a href="https://doi.org/10.1145/318723.318728" target="_blank" rel="noopener noreferrer">Lesk (1986)</a>
-              <span>- Machine-readable dictionary WSD (SIGDOC)</span>
-            </li>
-            <li>
-              <a href="http://www.cefr-j.org/" target="_blank" rel="noopener noreferrer">Negishi, Takada &amp; Tono (2013)</a>
-              <span>- Development of the CEFR-J lexical framework</span>
-            </li>
-            <li>
-              <a href="https://doi.org/10.1145/219717.219748" target="_blank" rel="noopener noreferrer">Miller (1995)</a>
-              <span>- WordNet: A lexical database for English (CACM)</span>
-            </li>
-            <li>
-              <a href="https://www.coe.int/en/web/common-european-framework-reference-languages" target="_blank" rel="noopener noreferrer">Council of Europe (2001, 2020)</a>
-              <span>- CEFR standards &amp; companion volume</span>
-            </li>
-            <li>
-              <a href="https://web.eecs.umich.edu/~mihalcea/downloads.html" target="_blank" rel="noopener noreferrer">Mihalcea (2007)</a>
-              <span>- Automatic word sense disambiguation (NAACL)</span>
-            </li>
-          </ul>
         </div>
       </div>
 
@@ -308,7 +325,7 @@
 
         <div id="geminiConnectionStatus" style="font-size: 0.85rem; margin-bottom: 16px; padding: 10px 14px; border-radius: 6px; display: none;"></div>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px;">
+        <div class="ai-config-actions" style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px;">
           <button type="button" id="clearGeminiKeyBtn" class="btn btn-secondary-accent" style="color: #be123c;">Remove Key</button>
           <div style="display: flex; gap: 8px;">
             <button type="button" id="testGeminiConnectionBtn" class="btn btn-secondary-accent">Test Connection</button>
@@ -392,7 +409,7 @@
             </div>
             <div class="form-group" style="margin-top: 8px;">
               <label for="customDefInput">Sense Definition (recommended for polysemy / WSD matching)</label>
-              <div style="display: flex; gap: 8px;">
+              <div class="quick-add-def-row" style="display: flex; gap: 8px;">
                 <input type="text" id="customDefInput" placeholder="" style="flex: 1; min-width: 0;">
                 <button type="submit" class="btn btn-primary btn-sm" id="addLexiconEntryBtn" style="white-space: nowrap; flex-shrink: 0;">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>

@@ -68,6 +68,10 @@ class SenseCEFRApp {
     this.paneCustomLexicon = document.getElementById('paneCustomLexicon');
     this.customLexiconCountBadge = document.getElementById('customLexiconCountBadge');
 
+    // background scroll lock state
+    this.savedScrollY = 0;
+    this.isScrollLocked = false;
+
     // gemini api controls
     this.geminiToggle = document.getElementById('geminiToggle');
     this.geminiStatusBadge = document.getElementById('geminiStatusBadge');
@@ -206,8 +210,36 @@ class SenseCEFRApp {
     }
   }
 
+  lockScroll() {
+    if (this.isScrollLocked) return;
+    this.savedScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+
+    // Prevent horizontal layout jump on browsers with non-overlay scrollbars
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+
+    document.documentElement.classList.add('modal-scroll-locked');
+    document.body.classList.add('modal-scroll-locked');
+    this.isScrollLocked = true;
+  }
+
+  unlockScroll() {
+    if (!this.isScrollLocked) return;
+
+    document.documentElement.classList.remove('modal-scroll-locked');
+    document.body.classList.remove('modal-scroll-locked');
+    document.body.style.paddingRight = '';
+
+    // Restore user to exact scroll position
+    window.scrollTo(0, this.savedScrollY);
+    this.isScrollLocked = false;
+  }
+
   openSettings(defaultTab = 'ai') {
     if (!this.settingsModal) return;
+    this.lockScroll();
     this.switchSettingsTab(defaultTab);
     if (this.geminiApiKeyInput) {
       this.geminiApiKeyInput.value = this.wsdEngine.geminiApiKey || localStorage.getItem('sensecefr_gemini_key') || '';
@@ -217,6 +249,18 @@ class SenseCEFRApp {
     if (this.geminiConnectionStatus) this.geminiConnectionStatus.style.display = 'none';
     this.renderCustomLexiconUI();
     this.settingsModal.style.display = 'flex';
+  }
+
+  closeSettings() {
+    if (!this.settingsModal) return;
+    this.settingsModal.style.display = 'none';
+    this.unlockScroll();
+  }
+
+  closeInspectModal() {
+    if (!this.inspectModal) return;
+    this.inspectModal.style.display = 'none';
+    this.unlockScroll();
   }
 
   openGeminiSettings() {
@@ -601,15 +645,26 @@ class SenseCEFRApp {
     }
     if (this.closeSettingsBtn) {
       this.closeSettingsBtn.addEventListener('click', () => {
-        this.settingsModal.style.display = 'none';
+        this.closeSettings();
       });
     }
     if (this.settingsModal) {
       this.settingsModal.addEventListener('click', (e) => {
         if (e.target === this.settingsModal) {
-          this.settingsModal.style.display = 'none';
+          this.closeSettings();
         }
       });
+      // Prevent wheel/touch scrolling on the blurred background backdrop itself
+      this.settingsModal.addEventListener('wheel', (e) => {
+        if (e.target === this.settingsModal) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+      this.settingsModal.addEventListener('touchmove', (e) => {
+        if (e.target === this.settingsModal) {
+          e.preventDefault();
+        }
+      }, { passive: false });
     }
 
     // tab switching between ai config and custom lexicon
@@ -684,7 +739,7 @@ class SenseCEFRApp {
           this.geminiStatusBadge.classList.add('active');
           this.showGeminiStatus(`✓ Key saved & connected! Model: ${model}`, true);
           setTimeout(() => {
-            this.settingsModal.style.display = 'none';
+            this.closeSettings();
           }, 1000);
         } catch (err) {
           this.showGeminiStatus(`✕ Validation failed: ${err.message}`, false);
@@ -789,12 +844,38 @@ class SenseCEFRApp {
     });
 
     // close inspector modal
-    this.closeModalBtn.addEventListener('click', () => {
-      this.inspectModal.style.display = 'none';
-    });
-    this.inspectModal.addEventListener('click', (e) => {
-      if (e.target === this.inspectModal) {
-        this.inspectModal.style.display = 'none';
+    if (this.closeModalBtn) {
+      this.closeModalBtn.addEventListener('click', () => {
+        this.closeInspectModal();
+      });
+    }
+    if (this.inspectModal) {
+      this.inspectModal.addEventListener('click', (e) => {
+        if (e.target === this.inspectModal) {
+          this.closeInspectModal();
+        }
+      });
+      // Prevent wheel/touch scrolling on the blurred background backdrop itself
+      this.inspectModal.addEventListener('wheel', (e) => {
+        if (e.target === this.inspectModal) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+      this.inspectModal.addEventListener('touchmove', (e) => {
+        if (e.target === this.inspectModal) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+    }
+
+    // close any open modal on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        if (this.settingsModal && this.settingsModal.style.display === 'flex') {
+          this.closeSettings();
+        } else if (this.inspectModal && this.inspectModal.style.display === 'flex') {
+          this.closeInspectModal();
+        }
       }
     });
   }
@@ -1263,6 +1344,7 @@ class SenseCEFRApp {
       this.modalAltSensesContainer.style.display = 'none';
     }
 
+    this.lockScroll();
     this.inspectModal.style.display = 'flex';
   }
 
