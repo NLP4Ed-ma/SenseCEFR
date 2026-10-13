@@ -1281,7 +1281,7 @@ class SenseCEFRApp {
     } else if (token.isPolysemous && token.selectedSense) {
       this.modalActiveSense.innerHTML = `
         <div class="sense-card-header">
-          <span class="guideword-badge"><svg class="icon-red" width="12" height="12" viewBox="0 0 24 24" fill="#c1272d" stroke="none" style="margin-right: 4px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>${token.selectedSense.guideword}</span>
+          <span class="guideword-badge"><span style="color: #c1272d; margin-right: 4px; font-size: 0.82rem; line-height: 1;">✦</span>${token.selectedSense.guideword}</span>
           <span class="cefr-tag token-${token.selectedSense.cefr.toLowerCase()}">${token.selectedSense.cefr}</span>
         </div>
         <div style="font-size: 0.9rem; margin-top: 4px;">${token.selectedSense.definition}</div>
