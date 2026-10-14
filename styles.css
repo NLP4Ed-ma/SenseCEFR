@@ -159,7 +159,7 @@ body {
 }
 
 .header-logo {
-  height: 38px;
+  height: 48px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -1008,6 +1008,33 @@ body.modal-scroll-locked {
   margin-bottom: 12px;
 }
 
+.footer-citation {
+  margin-bottom: 14px;
+}
+
+.citation-text {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.zenodo-badge-link {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  transition: opacity 0.2s ease;
+}
+
+.zenodo-badge-link:hover {
+  opacity: 0.85;
+}
+
+.zenodo-badge-link img {
+  display: block;
+  height: 20px;
+}
+
 .footer-meta {
   font-size: 0.78rem;
   color: var(--text-muted);
@@ -1524,8 +1551,8 @@ body.modal-scroll-locked {
   }
 
   .header-logo {
-    height: 34px;
-    max-width: 75px;
+    height: 42px;
+    max-width: 95px;
   }
 
   .header-main-row {

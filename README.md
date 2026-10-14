@@ -9,10 +9,10 @@
 </p>
 
 <p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
-  <a href="https://doi.org/10.5281/zenodo.23319803"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.23319803.svg" alt="DOI: 10.5281/zenodo.23319803"></a>
-  <a href="https://github.com/NLP4Ed/SenseCEFR"><img src="https://img.shields.io/badge/Release-v0.4.1%20Beta-blue.svg" alt="Version"></a>
-  <a href="https://nlp4ed.github.io/SenseCEFR/"><img src="https://img.shields.io/badge/Live%20App-SenseCEFR%200.4.1-emerald.svg" alt="Live App SenseCEFR 0.4.1"></a>
+  <a href="LICENSE.txt"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+  <a href="https://doi.org/10.5281/zenodo.23318092"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.23318092-purple.svg" alt="DOI: 10.5281/zenodo.23318092"></a>
+  <a href="https://github.com/NLP4Ed/SenseCEFR"><img src="https://img.shields.io/badge/Release-v0.4.2%20Beta-blue.svg" alt="Version"></a>
+  <a href="https://nlp4ed.com/SenseCEFR/"><img src="https://img.shields.io/badge/Live%20App-SenseCEFR%200.4.2-emerald.svg" alt="Live App SenseCEFR 0.4.2"></a>
   <a href="index.html"><img src="https://img.shields.io/badge/Execution-100%25%20Client--Side-teal.svg" alt="Client-Side"></a>
 </p>
 
@@ -126,7 +126,7 @@ SenseCEFR harmonizes multiple academic corpora:
 
 ### Option 1: Live Web Application
 Access the profiler directly in your web browser:
-[**https://nlp4ed.github.io/SenseCEFR/**](https://nlp4ed.github.io/SenseCEFR/)
+[**https://nlp4ed.com/SenseCEFR/**](https://nlp4ed.com/SenseCEFR/)
 
 ### Option 2: Offline Local Execution
 Download the source code as a ZIP (or clone this repository) and open **[`index.html`](index.html)** in any web browser:
@@ -146,9 +146,9 @@ If you use SenseCEFR in academic research, textbook leveling, or curriculum desi
   author       = {Lchgary, Yassine},
   title        = {SenseCEFR: Context-Aware Vocabulary Profiler with Word Sense Disambiguation},
   year         = {2026},
-  version      = {0.4.1},
-  doi          = {10.5281/zenodo.23319803},
-  url          = {https://nlp4ed.github.io/SenseCEFR/}
+  version      = {0.4.2},
+  doi          = {10.5281/zenodo.23318092},
+  url          = {https://nlp4ed.com/SenseCEFR/}
 }
 ```
 
@@ -221,4 +221,4 @@ SenseCEFR is built upon several foundational open-source datasets, academic lexi
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE.txt).
