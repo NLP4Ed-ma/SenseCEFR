@@ -1373,7 +1373,7 @@ class SenseCEFRApp {
     const csvRows = [];
 
     // metadata and corpus statistics block
-    csvRows.push(['# SenseCEFR Profiler (beta v0.4) - Analysis Report']);
+    csvRows.push(['# SenseCEFR Profiler (beta v0.4.1) - Analysis Report']);
     csvRows.push([escapeCSV('Generated At'), escapeCSV(new Date().toISOString())].join(','));
     csvRows.push([escapeCSV('Tokens'), escapeCSV(totalWords)].join(','));
     csvRows.push([escapeCSV('Types'), escapeCSV(uniqueTypes.length)].join(','));
